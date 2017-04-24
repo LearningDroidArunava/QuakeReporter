@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="9.6"
+        android:textSize="60sp"
+        android:id="@+id/magnitudeText"
+        android:background="@drawable/magnitudecircle"
+        android:gravity="center"
+        android:layout_margin="5dp"
+        android:fontFamily="sans-serif"
+        android:textColor="@android:color/white"
+        android:layout_weight="1"
+        />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="4"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/paddingLeft"
+            android:paddingTop="@dimen/paddingTop"
+            android:paddingBottom="@dimen/paddingBottom"
+            android:paddingStart="@dimen/paddingLeft"
+            tools:text="Alaska"
+            android:id="@+id/areaText"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:fontFamily="sans-serif"
+            android:layout_weight="2"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="23 A.F California Street"
+            android:paddingLeft="@dimen/paddingLeft"
+            android:paddingTop="@dimen/paddingTop"
+            android:paddingBottom="@dimen/paddingBottom"
+            android:id="@+id/locationText"
+            android:textSize="12sp"
+            android:fontFamily="sans-serif"
+            android:layout_below="@id/areaText"
+            android:layout_weight="1"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="2"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            tools:text="Feb 31, 2017"
+            android:paddingRight="@dimen/paddingDateTimeRight"
+            android:paddingBottom="@dimen/paddingDateTime"
+            android:paddingLeft="@dimen/paddingDateTime"
+            android:paddingTop="@dimen/paddingDateTimeTop"
+            android:id="@+id/dateText"
+            android:fontFamily="sans-serif"
+            android:layout_weight="2"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="3:08 PM"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:paddingRight="@dimen/paddingDateTimeRight"
+            android:paddingLeft="@dimen/paddingDateTime"
+            android:paddingTop="@dimen/paddingTimeTop"
+            android:paddingBottom="@dimen/paddingDateTime"
+            android:layout_below="@id/dateText"
+            android:id="@+id/timeText"
+            android:fontFamily="sans-serif"
+            android:layout_weight="1"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

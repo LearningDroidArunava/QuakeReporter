@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.android.quakereporter.SearchActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/searchActivityToolbar"
+        style="@style/takeanoteToolbar"
+        android:background="?attr/colorPrimary"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/searchPagePadding"
+        android:layout_margin="20dp"
+        android:orientation="vertical" >
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            
+            <TextView
+                style="@style/HeadingText"
+                android:text="@string/startTimeText"/>
+            
+            <EditText
+                android:id="@+id/startDateEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="date"
+                android:hint="@string/dateText" />
+
+            <EditText
+                android:id="@+id/startTimeEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="time"
+                android:hint="@string/timeText"/>
+        </LinearLayout>
+
+        <include layout="@layout/horizantal_line" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                style="@style/HeadingText"
+                android:text="@string/endTimeText" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/dateText" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/timeText"/>
+        </LinearLayout>
+
+        <include layout="@layout/horizantal_line" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/HeadingText"
+                android:text="@string/timeZoneText"
+                android:labelFor="@id/timeZoneEditText" />
+
+            <EditText
+                android:id="@+id/timeZoneEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="time"
+                android:hint="@string/UTCText"/>
+        </LinearLayout>
+
+        <include layout="@layout/horizantal_line" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                style="@style/HeadingText"
+                android:text="@string/orderByText"
+                android:labelFor="@id/orderBySpinner"/>
+
+            <Spinner
+                android:id="@+id/orderBySpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <include layout="@layout/horizantal_line" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/minmagText"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/maxmagText" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

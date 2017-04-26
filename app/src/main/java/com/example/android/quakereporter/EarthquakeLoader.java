@@ -32,7 +32,7 @@ public class EarthquakeLoader extends AsyncTaskLoader<ArrayList<Quake>> {
     /**
      * The base URL from which the JSON response will be derived
      */
-    public static final String QUERY_URL = "https://earthquake.usgs.gov/fdsnws/event/1/query?for" +
+    private static final String QUERY_URL = "https://earthquake.usgs.gov/fdsnws/event/1/query?for" +
             "mat=geojson&starttime=2016-01-01&endtime=2016-01-02";
 
 

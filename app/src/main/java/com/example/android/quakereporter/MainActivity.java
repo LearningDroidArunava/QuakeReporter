@@ -2,32 +2,23 @@ package com.example.android.quakereporter;
 
 
 import android.app.LoaderManager;
-import android.content.AsyncTaskLoader;
-import android.content.Context;
+import android.content.Intent;
 import android.content.Loader;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
-
-import javax.net.ssl.HttpsURLConnection;
 
 public class MainActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<ArrayList<Quake>> {
@@ -41,11 +32,15 @@ public class MainActivity extends AppCompatActivity
     // String containing the NO NETWORK STATUS String
     private static final String NO_NETWORK = "NO NETWORK";
 
+    private final int SEARCH_QUAKE_REQUEST_CODE = 3;
+
     // The list ID of the ListView that will contain the adapter
-    ListView listID;
+    ListView mListID;
 
     // The ID of the TextView which will be the empty view
-    TextView emptyView;
+    TextView mEmptyView;
+
+    ActionBar mActionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,13 +48,18 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         // Getting the List View which will show the ArrayList<Quake>
-        listID = (ListView) findViewById(R.id.activity_main);
+        mListID = (ListView) findViewById(R.id.activity_main);
 
         // Getting the empty view
-        emptyView = (TextView) findViewById(R.id.emptyView);
+        mEmptyView = (TextView) findViewById(R.id.emptyView);
 
         // Setting the empty view
-        listID.setEmptyView(emptyView);
+        mListID.setEmptyView(mEmptyView);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.noteActivityToolbar);
+        setSupportActionBar(toolbar);
+
+        mActionBar = getSupportActionBar();
 
         getLoaderManager().initLoader(fetchJSONID, null, this).forceLoad();
 
@@ -78,13 +78,40 @@ public class MainActivity extends AppCompatActivity
         QuakeAdapter quakeAdapter = new QuakeAdapter(this, quakeArrayList);
 
         // Setting the adapter to the list
-        listID.setAdapter(quakeAdapter);
+        mListID.setAdapter(quakeAdapter);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
 
 
+        switch (item.getItemId()) {
 
+            case R.id.searchQuake:
+                Intent searchQuakeIntent = new Intent(getApplicationContext(),
+                        SearchActivity.class);
+                startActivityForResult(searchQuakeIntent, SEARCH_QUAKE_REQUEST_CODE);
+                return true;
 
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.toolbar_menu, menu);
+        return true;
+    }
+
+    private void makeToast(String message){
+
+        Toast.makeText(getApplicationContext(),
+                message,
+                Toast.LENGTH_SHORT).show();
+    }
 
         @Override
         public Loader<ArrayList<Quake>> onCreateLoader(int loaderID, Bundle args) {

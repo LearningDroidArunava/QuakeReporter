@@ -17,4 +17,9 @@
     <!-- paddng top for @id/timeText -->
     <dimen name="paddingTimeTop">2dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+
+    <!-- Elevation for the toolbar -->
+    <dimen name="toolbarElevation">5dp</dimen>
+
+    <dimen name="searchPagePadding">10dp</dimen>>
 </resources>

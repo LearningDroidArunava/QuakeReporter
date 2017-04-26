@@ -1,4 +1,23 @@
 <resources>
     <string name="app_name">Quake Reporter</string>
     <string name="title_activity_settings">SettingsActivity</string>
+    <string name="toolbar_search">Search</string>
+    <string name="startTimeText">Set Start Time</string>
+    <string name="endTimeText">Set End Time</string>
+    <string name="orderByText">Order By</string>
+    <string name="dateText">Date [YYYY-MM-DD]</string>
+    <string name="timeText">Time</string>
+    <string name="timeZoneText">Time Zone</string>
+    <string name="minmagText">Set Minimum Magnitude</string>
+    <string name="maxmagText">Set Maximum Magnitude</string>
+    <string name="doneText">Done</string>
+    <string name="UTCText">+00:00</string>
+
+    <string-array name="orderByArray">
+        <item>Descending Time</item>
+        <item>Ascending Time</item>
+        <item>Descending Magnitude</item>
+        <item>Ascending Time</item>
+    </string-array>
+
 </resources>

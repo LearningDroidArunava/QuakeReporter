@@ -32,8 +32,7 @@ public class EarthquakeLoader extends AsyncTaskLoader<ArrayList<Quake>> {
     /**
      * The base URL from which the JSON response will be derived
      */
-    private static final String QUERY_URL = "https://earthquake.usgs.gov/fdsnws/event/1/query?for" +
-            "mat=geojson&starttime=2016-01-01&endtime=2016-01-02";
+    private String QUERY_URL;
 
 
     /**
@@ -42,10 +41,11 @@ public class EarthquakeLoader extends AsyncTaskLoader<ArrayList<Quake>> {
      * @param context The context of the application
      */
 
-    EarthquakeLoader(Context context) {
+    EarthquakeLoader(Context context, String url) {
 
         // Calling the super class constructor with the context
         super(context);
+        QUERY_URL = url;
     }
 
     /**
@@ -139,6 +139,9 @@ public class EarthquakeLoader extends AsyncTaskLoader<ArrayList<Quake>> {
                 // Getting the magnitude
                 mag = jsonPropertiesObject.get("mag").toString();
 
+                if (mag.equals("null")) {
+                    mag = "0.0";
+                }
                 // Modifying the magnitude
                 // try to get the first three digits
                 try {

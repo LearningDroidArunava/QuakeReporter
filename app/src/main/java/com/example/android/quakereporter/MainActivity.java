@@ -5,6 +5,7 @@ import android.app.LoaderManager;
 import android.content.Intent;
 import android.content.Loader;
 
+import android.content.SharedPreferences;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -38,9 +39,21 @@ public class MainActivity extends AppCompatActivity
     ListView mListID;
 
     // The ID of the TextView which will be the empty view
+
+    ProgressBar mProgressBar;
     TextView mEmptyView;
 
     ActionBar mActionBar;
+
+    protected SharedPreferences mQuakePreferences;
+
+    protected String SEARCH_URL;
+
+    protected String QUAKE_PREFERENCES = "QUAKE PREFERENCE";
+    protected String QUAKE_URL = "QUAKE URL";
+
+    protected Boolean mLoaderInit = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +74,38 @@ public class MainActivity extends AppCompatActivity
 
         mActionBar = getSupportActionBar();
 
-        getLoaderManager().initLoader(fetchJSONID, null, this).forceLoad();
+        mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
 
+        mQuakePreferences = getSharedPreferences(QUAKE_PREFERENCES, MODE_PRIVATE);
+
+        SEARCH_URL = mQuakePreferences.getString(QUAKE_URL, null);
+
+        if (SEARCH_URL == null) {
+
+            searchQuakeClicked();
+        } else {
+
+            getLoaderManager().initLoader(fetchJSONID, null, this).forceLoad();
+            mLoaderInit = true;
+        }
+
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == SEARCH_QUAKE_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                SEARCH_URL = data.getData().toString();
+                SharedPreferences.Editor sharedEditor = mQuakePreferences.edit();
+                sharedEditor.putString(QUAKE_URL, SEARCH_URL).apply();
+
+                if (!mLoaderInit) {
+                    getLoaderManager().initLoader(fetchJSONID, null, this).forceLoad();
+                    mLoaderInit = true;
+                } else {
+                    getLoaderManager().restartLoader(fetchJSONID, null, this).forceLoad();
+                }
+            }
+        }
     }
 
     /**
@@ -88,14 +131,19 @@ public class MainActivity extends AppCompatActivity
         switch (item.getItemId()) {
 
             case R.id.searchQuake:
-                Intent searchQuakeIntent = new Intent(getApplicationContext(),
-                        SearchActivity.class);
-                startActivityForResult(searchQuakeIntent, SEARCH_QUAKE_REQUEST_CODE);
+                searchQuakeClicked();
                 return true;
 
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void searchQuakeClicked(){
+
+        Intent searchQuakeIntent = new Intent(getApplicationContext(),
+                SearchActivity.class);
+        startActivityForResult(searchQuakeIntent, SEARCH_QUAKE_REQUEST_CODE);
     }
 
     @Override
@@ -106,30 +154,17 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    private void makeToast(String message){
-
-        Toast.makeText(getApplicationContext(),
-                message,
-                Toast.LENGTH_SHORT).show();
-    }
-
         @Override
         public Loader<ArrayList<Quake>> onCreateLoader(int loaderID, Bundle args) {
 
-            return new EarthquakeLoader(getApplicationContext());
+            mProgressBar.setVisibility(View.VISIBLE);
+            return new EarthquakeLoader(getApplicationContext(), SEARCH_URL);
         }
 
         @Override
         public void onLoadFinished(Loader<ArrayList<Quake>> loader, ArrayList<Quake> data) {
 
-            // Make the progress bar invisible
-            // Getting the progress bar id
-            ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
-
-            // Setting its visibility to GONE
-            progressBar.setVisibility(View.GONE);
-
-            // returning data to update UI
+            mProgressBar.setVisibility(View.GONE);
             updateUI(data);
         }
 

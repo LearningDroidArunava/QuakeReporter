@@ -106,12 +106,6 @@ public class QuakeAdapter extends ArrayAdapter<Quake> {
         GradientDrawable drawableBackground
                 = (GradientDrawable) magnitudeText.getBackground();
 
-        // Getting the desired color ID
-        int magnitudeColor = getColorForQuake(Float.parseFloat(currentQuake.getMagnitude()));
-
-        // Setting the desired color
-        //drawableBackground.setColor(ContextCompat.getColor(getContext(), magnitudeColor));
-
         drawableBackground.setColor(getColorForQuake(Float.parseFloat(currentQuake.getMagnitude())));
 
        // drawableBackground.setColor(R.color.colorPrimaryDark);

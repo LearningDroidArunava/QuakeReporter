@@ -12,6 +12,7 @@
     <string name="maxmagText">Set Maximum Magnitude</string>
     <string name="doneText">Done</string>
     <string name="UTCText">Zone [00:00]</string>
+    <string name="limitText">Limit</string>
 
     <string-array name="orderByArray">
         <item>Descending Time</item>

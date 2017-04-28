@@ -21,6 +21,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 import android.view.View.OnFocusChangeListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -37,6 +39,7 @@ public class SearchActivity extends AppCompatActivity {
     protected TextInputEditText mEndTimeEdtTxt;
     protected TextInputEditText mMinMagEdtTxt;
     protected TextInputEditText mMaxMagEdtTxt;
+    protected TextInputEditText mLimitEdtTxt;
 
     protected EditText mTimeZoneEdtTxt;
 
@@ -47,6 +50,7 @@ public class SearchActivity extends AppCompatActivity {
     protected TextInputLayout mMinMagTxtInputLayout;
     protected TextInputLayout mMaxMagTxtInputLayout;
     protected TextInputLayout mTimeZoneTxtInputLayout;
+    protected TextInputLayout mLimitTxtInputLayout;
 
     protected TextWatcher mDateWatcher;
     protected TextWatcher mTimeWatcher;
@@ -57,6 +61,7 @@ public class SearchActivity extends AppCompatActivity {
     protected OnFocusChangeListener mDateFieldFocusChngListnr;
     protected OnFocusChangeListener mTimeFieldFocusChngListnr;
     protected OnFocusChangeListener mMagnitudeFocusChngListnr;
+    protected OnFocusChangeListener mLimitFocusChngListnr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +72,8 @@ public class SearchActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         getReferences();
+
+        mActionBar.setDisplayHomeAsUpEnabled(true);
 
         setUpTheSpinners();
 
@@ -88,6 +95,7 @@ public class SearchActivity extends AppCompatActivity {
         mTimeZoneEdtTxt.setOnFocusChangeListener(mTimeFieldFocusChngListnr);
         mMinMagEdtTxt.setOnFocusChangeListener(mMagnitudeFocusChngListnr);
         mMaxMagEdtTxt.setOnFocusChangeListener(mMagnitudeFocusChngListnr);
+        mLimitEdtTxt.setOnFocusChangeListener(mLimitFocusChngListnr);
     }
 
     private void setUpTheFocusChangeListeners() {
@@ -110,6 +118,18 @@ public class SearchActivity extends AppCompatActivity {
                         mEditError = true;
                     } else {
 
+                        try {
+                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                            Date startDateParsed = sdf.parse(inputEdtTxtValue);
+                            Date now = new Date(System.currentTimeMillis());
+                            if (startDateParsed.compareTo(now) != -1) {
+                                ((TextInputLayout) findViewById(getCurrTextInputLayoutID(v.getId()))).setError("Start date is in the Future!!");
+                                mEditError = false;
+                                return;
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                         ((TextInputLayout) findViewById(getCurrTextInputLayoutID(v.getId()))).setError(null);
                         mEditError = false;
                     }
@@ -151,7 +171,7 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
 
-                EditText currInputEdtTxt = ((EditText) v);
+                TextInputEditText currInputEdtTxt = ((TextInputEditText) v);
                 String inputEdtTxtValue = currInputEdtTxt.getText().toString();
                 if (!hasFocus) {
 
@@ -167,6 +187,34 @@ public class SearchActivity extends AppCompatActivity {
                         ((TextInputLayout) findViewById(getCurrTextInputLayoutID(v.getId()))).setError(null);
                         mEditError = false;
                     }
+                } else {
+                    ((TextInputLayout) findViewById(getCurrTextInputLayoutID(v.getId()))).setError(null);
+                }
+            }
+        };
+
+        mLimitFocusChngListnr = new OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+
+                TextInputEditText currInputEdtTxt = ((TextInputEditText) v);
+                String inputEdtTxtValue = currInputEdtTxt.getText().toString();
+                if (inputEdtTxtValue.isEmpty()) {
+                    inputEdtTxtValue = "20000";
+                }
+                if (!hasFocus) {
+
+                    if (Integer.parseInt(inputEdtTxtValue) > 20000 && !inputEdtTxtValue.isEmpty()) {
+
+                        ((TextInputLayout) findViewById(getCurrTextInputLayoutID(v.getId()))).setError("Limit cannot be greater than 20000!");
+                        mEditError = true;
+                    } else {
+
+                        ((TextInputLayout) findViewById(getCurrTextInputLayoutID(v.getId()))).setError(null);
+                        mEditError = false;
+                    }
+                } else {
+                    ((TextInputLayout) findViewById(getCurrTextInputLayoutID(v.getId()))).setError(null);
                 }
             }
         };
@@ -351,6 +399,9 @@ public class SearchActivity extends AppCompatActivity {
             case R.id.timeZoneEditText:
                 return R.id.textInputLayoutTimeZone;
 
+            case R.id.limitEditText:
+                return R.id.textInputLayoutLimit;
+
             default:
                 return -1;
         }
@@ -392,6 +443,7 @@ public class SearchActivity extends AppCompatActivity {
         mStartTimeEdtTxt  = (TextInputEditText) findViewById(R.id.startTimeEditText);
         mMinMagEdtTxt     = (TextInputEditText) findViewById(R.id.minMagEditText);
         mMaxMagEdtTxt     = (TextInputEditText) findViewById(R.id.maxMagEditText);
+        mLimitEdtTxt      = (TextInputEditText) findViewById(R.id.limitEditText);
         mTimeZoneEdtTxt   = (EditText) findViewById(R.id.timeZoneEditText);
         mPlusMinusSpinner = (Spinner) findViewById(R.id.plusMinusSpinner);
 
@@ -402,6 +454,7 @@ public class SearchActivity extends AppCompatActivity {
         mMinMagTxtInputLayout    = (TextInputLayout) findViewById(R.id.textInputLayoutMinMag);
         mMaxMagTxtInputLayout    = (TextInputLayout) findViewById(R.id.textInputLayoutMaxMag);
         mTimeZoneTxtInputLayout  = (TextInputLayout) findViewById(R.id.textInputLayoutTimeZone);
+        mLimitTxtInputLayout     = (TextInputLayout) findViewById(R.id.textInputLayoutLimit);
 
     }
 
@@ -454,6 +507,7 @@ public class SearchActivity extends AppCompatActivity {
         String maxMag;
         String orderBy;
         String plusMinus;
+        String limit;
         String url = "https://earthquake.usgs.gov/fdsnws/event/1/query?for" +
                 "mat=geojson";
 
@@ -466,6 +520,7 @@ public class SearchActivity extends AppCompatActivity {
         minMag    = mMinMagEdtTxt.getText().toString();
         orderBy   = mOrderBySpinner.getSelectedItem().toString();
         plusMinus = mPlusMinusSpinner.getSelectedItem().toString();
+        limit     = mLimitEdtTxt.getText().toString();
 
         if (startDate.isEmpty()) {
             mStartDateTxtInputLayout.setError("Required Field!");
@@ -477,6 +532,26 @@ public class SearchActivity extends AppCompatActivity {
             mEndDateTxtInputLayout.setError("Required Field!");
             makeToast("Specify a End Date!");
             return;
+        }
+
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd mm:ss");
+            Date startDateTimeParsed = sdf.parse(startDate + " " + startTime);
+            Date endDateTimeParsed   = sdf.parse(endDate + " " + endTime);
+            Date now = new Date(System.currentTimeMillis());
+
+            if (startDateTimeParsed.compareTo(now) != -1) {
+                makeToast("Start time should be in the Past!");
+                return;
+            }
+
+            if (startDateTimeParsed.compareTo(endDateTimeParsed) != -1) {
+                makeToast("Start Time should be Before the End Time!");
+                return;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         if (startTime.isEmpty()) {
@@ -492,6 +567,10 @@ public class SearchActivity extends AppCompatActivity {
         if (timeZone.isEmpty()) {
 
             timeZone = "00:00";
+        }
+
+        if (limit.isEmpty()) {
+            limit = "20000";
         }
 
         switch (plusMinus) {
@@ -527,7 +606,7 @@ public class SearchActivity extends AppCompatActivity {
 
         url = url+"&starttime="+startDate+"T"+startTime+plusMinus+timeZone+"&endtime="+endDate+"T"
                         +endTime+plusMinus+timeZone+"&orderby="+orderBy+"&maxmagnitude="+maxMag
-                        +"&minmagnitude="+minMag;
+                        +"&minmagnitude="+minMag+"&limit="+limit;
 
         Log.i("asas", url);
 

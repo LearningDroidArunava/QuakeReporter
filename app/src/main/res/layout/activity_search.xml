@@ -14,116 +14,202 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent" />
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="@dimen/searchPagePadding"
-        android:layout_margin="20dp"
-        android:orientation="vertical" >
-        
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            
-            <TextView
-                style="@style/HeadingText"
-                android:text="@string/startTimeText"/>
-            
-            <EditText
-                android:id="@+id/startDateEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="date"
-                android:hint="@string/dateText" />
-
-            <EditText
-                android:id="@+id/startTimeEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="time"
-                android:hint="@string/timeText"/>
-        </LinearLayout>
-
-        <include layout="@layout/horizantal_line" />
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="@dimen/searchPagePadding"
             android:orientation="vertical" >
 
-            <TextView
-                style="@style/HeadingText"
-                android:text="@string/endTimeText" />
-
-            <EditText
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/dateText" />
+                android:orientation="vertical">
 
-            <EditText
+                <TextView
+                    style="@style/HeadingText"
+                    android:text="@string/startTimeText"/>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/textInputLayoutStartDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:errorEnabled="true">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/startDateEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxLength="@string/maxDateLength"
+                        android:inputType="date"
+                        android:hint="@string/dateText" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/textInputLayoutStartTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:errorEnabled="true">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/startTimeEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="time"
+                        android:maxLength="@string/maxTimeLength"
+                        android:hint="@string/timeText" />
+
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+            <include layout="@layout/horizantal_line" />
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/timeText"/>
+                android:orientation="vertical" >
+
+                <TextView
+                    style="@style/HeadingText"
+                    android:text="@string/endTimeText" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/textInputLayoutEndDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:errorEnabled="true">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/endDateEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="date"
+                        android:maxLength="@string/maxDateLength"
+                        android:hint="@string/dateText" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/textInputLayoutEndTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:errorEnabled="true">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/endTimeEditText"
+                        android:inputType="time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxLength="@string/maxTimeLength"
+                        android:hint="@string/timeText" />
+
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+            <include layout="@layout/horizantal_line" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/HeadingText"
+                    android:text="@string/timeZoneText"
+                    android:labelFor="@+id/timeZoneEditText" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <Spinner
+                        android:id="@+id/plusMinusSpinner"
+                        android:layout_width="80dp"
+                        android:layout_height="50dp" />
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/textInputLayoutTimeZone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@id/plusMinusSpinner"
+                        android:layout_toRightOf="@id/plusMinusSpinner"
+                        app:errorEnabled="true">
+
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/timeZoneEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="time"
+                            android:hint="@string/UTCText" />
+
+                    </android.support.design.widget.TextInputLayout>
+                </RelativeLayout>
+            </LinearLayout>
+
+            <include layout="@layout/horizantal_line" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <TextView
+                    style="@style/HeadingText"
+                    android:text="@string/orderByText"
+                    android:labelFor="@+id/orderBySpinner"/>
+
+                <Spinner
+                    android:id="@+id/orderBySpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <include layout="@layout/horizantal_line" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/textInputLayoutMinMag"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:errorEnabled="true">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/minMagEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="numberDecimal"
+                        android:maxLength="@string/maxMagnitudeLength"
+                        android:hint="@string/minmagText" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/textInputLayoutMaxMag"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:errorEnabled="true">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/maxMagEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="numberDecimal"
+                        android:maxLength="@string/maxMagnitudeLength"
+                        android:hint="@string/maxmagText" />
+
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
         </LinearLayout>
-
-        <include layout="@layout/horizantal_line" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                style="@style/HeadingText"
-                android:text="@string/timeZoneText"
-                android:labelFor="@id/timeZoneEditText" />
-
-            <EditText
-                android:id="@+id/timeZoneEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="time"
-                android:hint="@string/UTCText"/>
-        </LinearLayout>
-
-        <include layout="@layout/horizantal_line" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
-
-            <TextView
-                style="@style/HeadingText"
-                android:text="@string/orderByText"
-                android:labelFor="@id/orderBySpinner"/>
-
-            <Spinner
-                android:id="@+id/orderBySpinner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-
-        <include layout="@layout/horizantal_line" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/minmagText"/>
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/maxmagText" />
-        </LinearLayout>
-
-    </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

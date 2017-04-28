@@ -22,4 +22,5 @@
     <dimen name="toolbarElevation">5dp</dimen>
 
     <dimen name="searchPagePadding">10dp</dimen>>
+
 </resources>

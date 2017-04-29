@@ -248,10 +248,10 @@ public class EarthquakeLoader extends AsyncTaskLoader<ArrayList<Quake>> {
             connection = (HttpsURLConnection) fetchURL.openConnection();
 
             // Setting manually the connection read timeout
-            connection.setReadTimeout(5000);
+            connection.setReadTimeout(10000);
 
             // Setting the connection timeout manually
-            connection.setConnectTimeout(5000);
+            connection.setConnectTimeout(10000);
 
             // Setting the request method
             connection.setRequestMethod("GET");

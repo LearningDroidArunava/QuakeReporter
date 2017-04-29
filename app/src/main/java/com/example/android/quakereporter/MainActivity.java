@@ -1,6 +1,7 @@
 package com.example.android.quakereporter;
 
 
+import android.app.Activity;
 import android.app.LoaderManager;
 import android.content.Intent;
 import android.content.Loader;
@@ -54,12 +55,15 @@ public class MainActivity extends AppCompatActivity
 
     protected Boolean mLoaderInit = false;
 
+    Activity mCurrentActivity;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mCurrentActivity = this;
         // Getting the List View which will show the ArrayList<Quake>
         mListID = (ListView) findViewById(R.id.activity_main);
 
@@ -79,6 +83,7 @@ public class MainActivity extends AppCompatActivity
         mQuakePreferences = getSharedPreferences(QUAKE_PREFERENCES, MODE_PRIVATE);
 
         SEARCH_URL = mQuakePreferences.getString(QUAKE_URL, null);
+
 
         if (SEARCH_URL == null) {
 
@@ -134,6 +139,12 @@ public class MainActivity extends AppCompatActivity
                 searchQuakeClicked();
                 return true;
 
+            case R.id.refreshQuakes:
+                mCurrentActivity.finish();
+                mCurrentActivity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                mCurrentActivity.startActivity(mCurrentActivity.getIntent());
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -158,6 +169,7 @@ public class MainActivity extends AppCompatActivity
         public Loader<ArrayList<Quake>> onCreateLoader(int loaderID, Bundle args) {
 
             mProgressBar.setVisibility(View.VISIBLE);
+            mEmptyView.setVisibility(View.GONE);
             return new EarthquakeLoader(getApplicationContext(), SEARCH_URL);
         }
 
@@ -165,6 +177,7 @@ public class MainActivity extends AppCompatActivity
         public void onLoadFinished(Loader<ArrayList<Quake>> loader, ArrayList<Quake> data) {
 
             mProgressBar.setVisibility(View.GONE);
+            mEmptyView.setVisibility(View.VISIBLE);
             updateUI(data);
         }
 

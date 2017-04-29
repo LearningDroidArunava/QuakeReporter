@@ -7,18 +7,19 @@
     <string name="orderByText">Order By</string>
     <string name="dateText">Date [YYYY-MM-DD]</string>
     <string name="timeText">Time [mm:ss]</string>
-    <string name="timeZoneText">Time Zone</string>
-    <string name="minmagText">Set Minimum Magnitude</string>
-    <string name="maxmagText">Set Maximum Magnitude</string>
+    <string name="timeZoneText">Set Time Zone</string>
+    <string name="minmagText">Minimum Magnitude</string>
+    <string name="maxmagText">Maximum Magnitude</string>
     <string name="doneText">Done</string>
     <string name="UTCText">Zone [00:00]</string>
     <string name="limitText">Limit</string>
+    <string name="refreshText">Refresh</string>
 
     <string-array name="orderByArray">
         <item>Descending Time</item>
         <item>Ascending Time</item>
         <item>Descending Magnitude</item>
-        <item>Ascending Time</item>
+        <item>Ascending Magnitude</item>
     </string-array>
 
     <string-array name="plusMinusArray">

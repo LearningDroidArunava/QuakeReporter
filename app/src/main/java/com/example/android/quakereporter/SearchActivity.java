@@ -123,7 +123,7 @@ public class SearchActivity extends AppCompatActivity {
                             Date startDateParsed = sdf.parse(inputEdtTxtValue);
                             Date now = new Date(System.currentTimeMillis());
                             if (startDateParsed.compareTo(now) != -1) {
-                                ((TextInputLayout) findViewById(getCurrTextInputLayoutID(v.getId()))).setError("Start date is in the Future!!");
+                                ((TextInputLayout) findViewById(getCurrTextInputLayoutID(v.getId()))).setError("Date is in the Future!!");
                                 mEditError = false;
                                 return;
                             }
@@ -534,26 +534,6 @@ public class SearchActivity extends AppCompatActivity {
             return;
         }
 
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd mm:ss");
-            Date startDateTimeParsed = sdf.parse(startDate + " " + startTime);
-            Date endDateTimeParsed   = sdf.parse(endDate + " " + endTime);
-            Date now = new Date(System.currentTimeMillis());
-
-            if (startDateTimeParsed.compareTo(now) != -1) {
-                makeToast("Start time should be in the Past!");
-                return;
-            }
-
-            if (startDateTimeParsed.compareTo(endDateTimeParsed) != -1) {
-                makeToast("Start Time should be Before the End Time!");
-                return;
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
         if (startTime.isEmpty()) {
 
             startTime = "00:00";
@@ -571,6 +551,26 @@ public class SearchActivity extends AppCompatActivity {
 
         if (limit.isEmpty()) {
             limit = "20000";
+        }
+
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd mm:ss");
+            Date startDateTimeParsed = sdf.parse(startDate + " " + startTime);
+            Date endDateTimeParsed   = sdf.parse(endDate + " " + endTime);
+            Date now = new Date(System.currentTimeMillis());
+
+            if (startDateTimeParsed.compareTo(now) != -1) {
+                makeToast("Time is in the Future!!");
+                return;
+            }
+
+            if (startDateTimeParsed.compareTo(endDateTimeParsed) != -1) {
+                makeToast("Start Time should be Before the End Time!");
+                return;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         switch (plusMinus) {
@@ -608,7 +608,7 @@ public class SearchActivity extends AppCompatActivity {
                         +endTime+plusMinus+timeZone+"&orderby="+orderBy+"&maxmagnitude="+maxMag
                         +"&minmagnitude="+minMag+"&limit="+limit;
 
-        Log.i("asas", url);
+        //Log.i("asas", url);
 
         Intent data = new Intent();
         data.setData(Uri.parse(url));

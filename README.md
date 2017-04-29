@@ -9,7 +9,10 @@ during that period of time.
 
 # Note
 
-1) The app uses the [https://earthquake.usgs.gov/fdsnws/event/1/][USGS] API to display all te quakes that took place.
+1) The app uses the [USGS API](https://earthquake.usgs.gov/fdsnws/event/1/) API to display all te quakes that took place.
 2) While quering if the number of earthquakes during the mentioned time is greater than 20000 then USGS would return an error
    and that is why the limits the number of earthquakes to 20000 on each request, unless specfied by the user explicitly.
    
+# License
+
+This project is distributed under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0)
